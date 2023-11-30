@@ -1,95 +1,74 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client"
 
-export default function Home() {
+import "@/style/globalStyle.css"
+import "@/style/reset.css"
+import { Tlogin } from "@/@types/user"
+import { ContainerInput } from "@/components/Input/style"
+import { useForm, SubmitHandler } from "react-hook-form"
+import { Section } from "@/components/Section"
+import { Form } from "@/components/Form"
+import { Button } from "@/components/Button"
+import { FaEyeSlash } from "react-icons/fa"
+import { FaEye } from "react-icons/fa6"
+import { useState } from "react"
+import Link from "next/link"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { schemaUserLogin } from "@/schemas/schema.user"
+import { api } from "@/services/api"
+
+export default function Login() {
+  const { register, handleSubmit, formState: { errors } } = useForm<Tlogin>({resolver: zodResolver(schemaUserLogin)})
+  const [passwordOff, setPasswordOff] = useState(true)
+
+  const login = async (data: Tlogin) => {
+    console.log(data)
+    try {
+      const res = await api.post("accounts/login/", data)
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const req = async () => {
+    const res = await api.post("accounts/login/")
+    console.log(res)
+  }
+  req()
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      <>
+        <main>
+          <Section styleSection="login">
+            <Form submit={handleSubmit(login)}>
+              <label htmlFor="email">Email</label>
+              <ContainerInput>
+                <div id="container" style={ errors.email ? { border: '1px solid red'} : { border: '1px solid rgb(234, 234, 234)'}}>
+                  <input placeholder="Digite seu e-mail" id="email" {...register("email")} type="text" />
+                </div>
+                {errors.email ? <span>{errors.email.message}</span> : <span></span> }
+              </ContainerInput>
+              
+              <label htmlFor="password">Senha</label>
+              <ContainerInput>
+                <div id="container" style={ errors.email ? { border: '1px solid red'} : { border: '1px solid rgb(234, 234, 234)'}}>
+                  <input placeholder="Digite sua senha" id="password" {...register("password")} type={passwordOff ? "password" : "text"}/>
+                </div>
+                {errors.password ? <span>{errors.password.message}</span> : <span></span> }
+                <button type="button" onClick={() => setPasswordOff(!passwordOff)}>
+                  {passwordOff ? 
+                  <FaEyeSlash size={25} />
+                  :
+                  <FaEye size={25} />
+                }
+                </button>
+              </ContainerInput>
+              <Button styleButton="login" type="submit">Entrar</Button>
+              <span></span>
+              <h5>Não tenho conta? <Link href="/register">Criar conta</Link></h5>
+            </Form>
+          </Section>
+        </main>
+      </>
   )
 }

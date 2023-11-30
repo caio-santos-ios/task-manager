@@ -1,0 +1,13 @@
+section {
+    height: 87vh;
+}
+
+main {
+    width: 80vw;
+    margin: 0 auto;
+}
+
+input, button {
+    border: none;
+    outline: none;
+}

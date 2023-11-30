@@ -5,7 +5,8 @@ export const StyleForm = styled.form`
     display: flex;
     flex-flow: column;
     gap: 1rem;
-    min-width: 25rem;
+    width: 100%;
+    max-width: 25rem;
 
     > label {
         font-size: 1.1rem;

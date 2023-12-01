@@ -26,7 +26,8 @@ export const ModalTask = ({modalIsOpen, setModalIsOpen}: Iprops) => {
     const createTask = async (data: any) => {
         try {
             const res = await api.post("tasks/", data, { headers: { Authorization: `Bearer ${token}` } })
-            setTasks([...tasks, res.data])
+            const newTasks = [...tasks, res.data]
+            setTasks(newTasks)
             reset()
             toast.success("Tarefa criada")
             setModalIsOpen(false)

@@ -14,6 +14,6 @@ export const schemaUserRegister = z.object({
 }).refine(({password, confirmationPassword}) => password === confirmationPassword, {message: "As senha não correspondem", path: ["confirmationPassword"]})
 
 export const schemaUserLogin = z.object({
-    email: z.string().min(1, "E-mail é obrigatorio").email("Forneça um e-mail válido"),
+    username: z.string().min(1, "Usuário é obrigatorio"),
     password: z.string().min(1, "Senha é obrigatória").min(8, "É necessário pelo menos oito caracteres.")
 })

@@ -1,9 +1,15 @@
+:root {
+    --primary-color: #3c43da;
+    --secundary-color: #ffffff;
+}
+
 section {
     height: 87vh;
 }
 
 main {
-    width: 80vw;
+    width: 95vw;
+    padding: 0 0.3rem;
     margin: 0 auto;
 }
 

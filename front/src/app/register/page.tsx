@@ -1,7 +1,5 @@
 "use client"
 
-import "@/style/globalStyle.css"
-import "@/style/reset.css"
 import { TUserRegister, Tlogin } from "@/@types/user"
 import { ContainerInput } from "@/components/Input/style"
 import { useForm, SubmitHandler } from "react-hook-form"
@@ -15,25 +13,31 @@ import Link from "next/link"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { schemaUserRegister } from "@/schemas/schema.user"
 import { api } from "@/services/api"
+import 'react-toastify/dist/ReactToastify.css'
+import { toast, ToastContainer } from 'react-toastify'
+import { useRouter } from "next/navigation"
 
 export default function Register() {
-  const { register, handleSubmit, formState: { errors } } = useForm<TUserRegister>({resolver: zodResolver(schemaUserRegister)})
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<TUserRegister>({resolver: zodResolver(schemaUserRegister)})
   const [passwordOff, setPasswordOff] = useState(true)
   const [passwordOffConfirmation, setPasswordOffConfirmation] = useState(true)
+  const router = useRouter()
 
   const registerUser = async (data: TUserRegister) => {
     try {
-      const res = await api.post("accounts/", data)
-      console.log(res)
-    } catch (error) {
-      console.log(error)
+      await api.post("accounts/", data)
+      reset()
+      toast.success("Usuário criado")
+      router.push("/")
+    } catch (error: any) {
+      if(error.status) return toast.error("Usuário ou E-mail já existe")
     }
-    console.log(data)
   }
 
   return (
       <>
         <main>
+          <ToastContainer theme="colored" />
           <Section styleSection="login">
             <Form submit={handleSubmit(registerUser)}>
                 <label htmlFor="username">Nome</label>
@@ -51,7 +55,9 @@ export default function Register() {
                     </div>
                     {errors.email ? <span>{errors.email.message}</span> : <span></span> }
                 </ContainerInput>
-                <p className="lenCaracter">No minimo 8 caracteres</p>
+                <p style={{color: 'blue'}}>No minimo 8 caracteres</p>
+                <p style={{color: 'blue'}}>No minimo 1 letra maiuscula</p>
+                <p style={{color: 'blue'}}>No minimo 1 letra minuscula</p>
                 <label htmlFor="password">Senha</label>
                 <ContainerInput>
                     <div id="container" style={ errors.password ? { border: '1px solid red'} : { border: '1px solid rgb(234, 234, 234)'}}>

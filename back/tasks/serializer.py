@@ -5,4 +5,6 @@ from .models import Task
 class SerializerTask(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = ['id', 'title', 'description', 'account_id']
+        read_only_fields = ['id', 'account_id']
+        depth = 1

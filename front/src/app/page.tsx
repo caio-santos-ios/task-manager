@@ -27,7 +27,6 @@ export default function Login() {
   const login = async (data: Tlogin) => {
     try {
       const res = await api.post("accounts/login/", data)
-      console.log(res)
       setCookie("token", res.data.access)
       router.push("/task")
     } catch (error) {

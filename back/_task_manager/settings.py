@@ -159,8 +159,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "accounts.Account"
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Adicione os domínios permitidos aqui
-    "https://seu-outro-domínio.com",
+    "https://task-manager-orcin-pi.vercel.app",
+    "http://localhost:3000"
 ]
 
 REST_FRAMEWORK = {

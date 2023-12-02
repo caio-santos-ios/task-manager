@@ -7,7 +7,7 @@ export const StyleForm = styled.form`
     gap: 1rem;
     width: 100%;
     max-width: 25rem;
-
+    margin: 4rem 0;
     > label {
         font-size: 1.1rem;
     }

@@ -55,9 +55,6 @@ export default function Register() {
                     </div>
                     {errors.email ? <span>{errors.email.message}</span> : <span></span> }
                 </ContainerInput>
-                <p style={{color: 'blue'}}>No minimo 8 caracteres</p>
-                <p style={{color: 'blue'}}>No minimo 1 letra maiuscula</p>
-                <p style={{color: 'blue'}}>No minimo 1 letra minuscula</p>
                 <label htmlFor="password">Senha</label>
                 <ContainerInput>
                     <div id="container" style={ errors.password ? { border: '1px solid red'} : { border: '1px solid rgb(234, 234, 234)'}}>

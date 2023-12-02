@@ -28,8 +28,8 @@ export default function Login() {
     try {
       const res = await api.post("accounts/login/", data)
       console.log(res)
-      // setCookie("token", res.data.access)
-      // router.push("/task")
+      setCookie("token", res.data.access)
+      router.push("/task")
     } catch (error) {
       console.log(error)
     }

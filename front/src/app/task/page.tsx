@@ -9,17 +9,10 @@ const verifyLogged = async (token: string | undefined) => {
   if(!token) redirect("/") 
 } 
 
-const request = async (token: string | undefined) => {
-  const response = await fetch(`${BASE_URL}/tasks`, {headers: { 'Authorization': `Bearer ${token}`}})
-  const tasks = await response.json()
-  return tasks
-}
-
 export default async function Task() {
   const token: string | undefined = getCookie('token', { cookies })
 
   await verifyLogged(token)
-  const task = await request(token)
     
   return (
     <>

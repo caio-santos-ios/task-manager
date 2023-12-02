@@ -31,9 +31,7 @@ export const ModalTask = ({modalIsOpen, setModalIsOpen}: Iprops) => {
             reset()
             toast.success("Tarefa criada")
             setModalIsOpen(false)
-        } catch (error) {
-            console.log(error)
-        }
+        } catch (error) {}
     }
 
     return(

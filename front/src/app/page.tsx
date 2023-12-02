@@ -20,17 +20,19 @@ import { useRouter } from "next/navigation"
 
 
 export default function Login() {
+  const [loading, setLoading] = useState<boolean>(false)
   const { register, handleSubmit, formState: { errors } } = useForm<Tlogin>({resolver: zodResolver(schemaUserLogin)})
   const [passwordOff, setPasswordOff] = useState(true)
   const router = useRouter()
 
   const login = async (data: Tlogin) => {
+    setLoading(true)
     try {
       const res = await api.post("accounts/login/", data)
       setCookie("token", res.data.access)
       router.push("/task")
     } catch (error) {
-      console.log(error)
+      setLoading(false)
     }
   }
 
@@ -63,7 +65,7 @@ export default function Login() {
                 }
                 </button>
               </ContainerInput>
-              <Button styleButton="login" type="submit">Entrar</Button>
+              <Button styleButton="login" type="submit">{loading ? "Entrando..." : "Entrar"}</Button>
               <span></span>
               <h5>Não tenho conta? <Link href="/register">Criar conta</Link></h5>
             </Form>

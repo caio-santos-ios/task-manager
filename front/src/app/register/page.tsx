@@ -18,19 +18,22 @@ import { toast, ToastContainer } from 'react-toastify'
 import { useRouter } from "next/navigation"
 
 export default function Register() {
+  const [loading, setLoading] = useState(false)
   const { register, handleSubmit, reset, formState: { errors } } = useForm<TUserRegister>({resolver: zodResolver(schemaUserRegister)})
   const [passwordOff, setPasswordOff] = useState(true)
   const [passwordOffConfirmation, setPasswordOffConfirmation] = useState(true)
   const router = useRouter()
 
   const registerUser = async (data: TUserRegister) => {
+    setLoading(true)
     try {
       await api.post("accounts/", data)
       reset()
       toast.success("Usuário criado")
-      router.push("/")
+      setLoading(false)
     } catch (error: any) {
       if(error.status) return toast.error("Usuário ou E-mail já existe")
+      setLoading(false)
     }
   }
 
@@ -85,7 +88,7 @@ export default function Register() {
                     {errors.confirmationPassword ? <span>{errors.confirmationPassword.message}</span> : <span></span> }
                 </ContainerInput>
 
-              <Button styleButton="login" type="submit">Cadastrar-se</Button>
+              <Button styleButton="login" type="submit">{loading ? "Cadastrando..." : "Cadastrar-se"}</Button>
               <span></span>
               <h5>Já tenho uma conta? <Link href="/">Fazer login</Link></h5>
             </Form>

@@ -12,16 +12,13 @@ import { Button } from "../Button"
 export const ListTask = () => {
     const [tasks, setTask] = useAtom(listTasks)
     const token: string | undefined = Cookies.get('token')
-    console.log(tasks)
 
     useEffect(() => {
         const req = async () => {
             try {
               const res = await api.get("tasks/", { headers: { Authorization: `Bearer ${token}` } })
               setTask(res.data)
-            } catch (error) {
-              console.log(error)
-            }
+            } catch (error) {}
         }
         req()
     }, [])
